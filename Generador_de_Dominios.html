@@ -55,39 +55,59 @@
 <body>
 
   <h1>🧪 Generador de Dominios</h1>
-  <label for="tld">Selecciona un TLD:</label>
+  
+  <label for="tld">Selecciona uno</label>
   <select id="tld">
     <option value=".com">.com</option>
     <option value=".net">.net</option>
     <option value=".org">.org</option>
     <option value=".io">.io</option>
   </select>
+  
   <br>
-  <button onclick="generarDominios()">Generar Dominios</button>
+  <button id="btn-generar">Generar Dominios</button>
 
-  <ul id="resultado"></ul>
+  <ul id="lista-dominios"></ul>
 
   <script>
-    let pronoun = ['the', 'our'];
-    let adj = ['great', 'big'];
-    let noun = ['jogger', 'racoon'];
+    const pronouns = ['the', 'our'];
+    const adjectives = ['great', 'big'];
+    const nouns = ['jogger', 'racoon'];
 
-    function generarDominios() {
-      let tld = document.getElementById('tld').value;
-      let resultado = document.getElementById('resultado');
-      resultado.innerHTML = ''; // limpiar resultados anteriores
+    const tldSelect = document.getElementById('tld');
+    const generateButton = document.getElementById('btn-generar');
+    const domainList = document.getElementById('lista-dominios');
 
-      for (let p of pronoun) {
-        for (let a of adj) {
-          for (let n of noun) {
-            let dominio = `${p}${a}${n}${tld}`;
-            let li = document.createElement('li');
-            li.textContent = dominio;
-            resultado.appendChild(li);
+    const generateDomains = () => {
+      const tld = tldSelect.value;
+      const domains = [];
+
+      for (const pronoun of pronouns) {
+        for (const adjective of adjectives) {
+          for (const noun of nouns) {
+            domains.push(`${pronoun}${adjective}${noun}${tld}`);
           }
         }
       }
-    }
+
+      return domains;
+    };
+
+    const renderDomains = (domains) => {
+      domainList.innerHTML = '';
+      domains.forEach(domain => {
+        const listItem = document.createElement('li');
+        listItem.textContent = domain;
+        domainList.appendChild(listItem);
+      });
+    };
+
+    const handleGenerateClick = () => {
+      const domains = generateDomains();
+      renderDomains(domains);
+    };
+
+    generateButton.addEventListener('click', handleGenerateClick);
   </script>
 
 </body>
