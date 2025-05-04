@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
+      background-color: #f0f4f8;
       color: #333;
       text-align: center;
       padding: 50px;
@@ -16,19 +16,22 @@
       color: #2c3e50;
     }
 
+    label, select, button {
+      font-size: 16px;
+      margin: 10px;
+    }
+
     select, button {
       padding: 10px;
-      margin: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      font-size: 16px;
     }
 
     button {
       background-color: #3498db;
       color: white;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background-color 0.3s;
     }
 
     button:hover {
@@ -42,46 +45,43 @@
     }
 
     li {
-      padding: 5px;
-      font-size: 18px;
-      background: #fff;
+      background-color: #fff;
       margin: 5px auto;
+      padding: 8px;
+      font-size: 18px;
       max-width: 300px;
       border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
 
-  <h1>🧪 Generador de Dominios</h1>
-  
-  <label for="tld">Selecciona uno</label>
-  <select id="tld">
+  <h1>Generador de Dominios</h1>
+
+  <label for="tldSelect">Selecciona uno:</label>
+  <select id="tldSelect">
     <option value=".com">.com</option>
     <option value=".net">.net</option>
     <option value=".org">.org</option>
     <option value=".io">.io</option>
   </select>
-  
-  <br>
-  <button id="btn-generar">Generar Dominios</button>
 
-  <ul id="lista-dominios"></ul>
+  <button id="generateButton">Generar Dominios</button>
+
+  <ul id="domainList"></ul>
 
   <script>
     const pronouns = ['the', 'our'];
     const adjectives = ['great', 'big'];
     const nouns = ['jogger', 'racoon'];
 
-    const tldSelect = document.getElementById('tld');
-    const generateButton = document.getElementById('btn-generar');
-    const domainList = document.getElementById('lista-dominios');
+    const tldSelectEl = document.getElementById('tldSelect');
+    const generateButtonEl = document.getElementById('generateButton');
+    const domainListEl = document.getElementById('domainList');
 
-    const generateDomains = () => {
-      const tld = tldSelect.value;
+    const generateDomainNames = (tld) => {
       const domains = [];
-
       for (const pronoun of pronouns) {
         for (const adjective of adjectives) {
           for (const noun of nouns) {
@@ -89,25 +89,27 @@
           }
         }
       }
-
       return domains;
     };
 
-    const renderDomains = (domains) => {
-      domainList.innerHTML = '';
+  
+    const renderDomainList = (domains) => {
+      domainListEl.innerHTML = ''; 
       domains.forEach(domain => {
         const listItem = document.createElement('li');
         listItem.textContent = domain;
-        domainList.appendChild(listItem);
+        domainListEl.appendChild(listItem);
       });
     };
 
-    const handleGenerateClick = () => {
-      const domains = generateDomains();
-      renderDomains(domains);
+    const onGenerateButtonClick = () => {
+      const selectedTld = tldSelectEl.value;
+      const generatedDomains = generateDomainNames(selectedTld);
+      renderDomainList(generatedDomains);
     };
 
-    generateButton.addEventListener('click', handleGenerateClick);
+ 
+    generateButtonEl.addEventListener('click', onGenerateButtonClick);
   </script>
 
 </body>
